@@ -61,8 +61,8 @@ class GameState:
 
         self.load_level(self.level)
 
-        self.background_music.play(volume=.001)
-        pyglet.clock.schedule_interval(lambda: self.background_music.play(volume=.001), self.background_music.get_length())
+        self.background_music.play(volume=.1)
+        pyglet.clock.schedule_interval(lambda: self.background_music.play(volume=.1), self.background_music.get_length())
 
         self.emitters = []
 
@@ -130,7 +130,9 @@ class GameState:
                         self.level_objects.append(sprite)
 
                     if tile.name.endswith(("white", "red", "green", "blue")):
-                        self.colored_geometry[tile.name.rsplit("_", 1)[-1]].append(sprite)
+                        color = tile.name.rsplit("_", 1)[-1]
+
+                        self.colored_geometry[color].append(sprite)
 
                     if tile.name.startswith("save"):
                         self.saves.append(sprite)
@@ -194,7 +196,7 @@ class GameState:
         if saves:
             new_save = saves.pop()
             if self.start != new_save:
-                self.pickup_sound.play(volume=.001)
+                self.pickup_sound.play(volume=.1)
                 self.start = new_save
 
         if is_touching(self.player, self.danger):
@@ -236,10 +238,10 @@ class GameState:
             self.player.set_color(
                 all_colors[(all_colors.index(self.player.str_color) + 1) % len(all_colors)]
             )
-            self.mode_switch_sound.play(volume=.001)
+            self.mode_switch_sound.play(volume=.1)
         if key in colors:
             self.player.set_color(colors[key])
-            self.mode_switch_sound.play(volume=.001)
+            self.mode_switch_sound.play(volume=.1)
 
         # Pre
         if self.engine.can_jump():
@@ -269,7 +271,7 @@ class GameState:
         if key == arcade.key.SPACE:
             self.player.jump_count += 1
             if self.player.jump_count <= JUMP_COUNT:
-                self.jump_sound.play(volume=.005)
+                self.jump_sound.play(volume=.5)
                 self.player.change_y = 0
                 self.player.is_jumping = True
                 self.player.jump_force = (
