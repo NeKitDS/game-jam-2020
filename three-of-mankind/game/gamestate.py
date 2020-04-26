@@ -77,6 +77,7 @@ class GameState:
         self.danger = arcade.SpriteList(use_spatial_hash=True)
         self.saves = arcade.SpriteList(use_spatial_hash=True)
         self.start, self.end = None, None
+        self.last_color = "white"
         self.colored_geometry = {
             "red": arcade.SpriteList(use_spatial_hash=True),
             "green": arcade.SpriteList(use_spatial_hash=True),
@@ -166,6 +167,7 @@ class GameState:
 
     def move_to_start(self) -> None:
         self.player.left, self.player.bottom = self.start.left, self.start.bottom
+        self.player.set_color(self.last_color)
 
     def on_update(self, delta_time: float) -> None:
         """Handle update event."""
@@ -198,6 +200,7 @@ class GameState:
             if self.start != new_save:
                 self.pickup_sound.play(volume=.1)
                 self.start = new_save
+                self.last_color = self.player.str_color
 
         if is_touching(self.player, self.danger):
             self.emitters.append(explosion_factory((self.player.center_x, self.player.center_y), self.player.get_color()))
