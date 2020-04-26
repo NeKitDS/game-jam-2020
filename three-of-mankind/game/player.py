@@ -16,13 +16,13 @@ class Player(Sprite):
         "white": (35, 35, 35),
         "red": (85, 35, 35),
         "green": (35, 85, 35),
-        "blue": (35, 35, 85)
+        "blue": (35, 35, 85),
     }
     particle_colors = {
         "white": (255, 255, 255),
         "red": (255, 0, 0),
         "green": (0, 255, 0),
-        "blue": (0, 0, 255)
+        "blue": (0, 0, 255),
     }
 
     def __init__(self, *args, **kwargs):
@@ -54,9 +54,9 @@ class Player(Sprite):
         if self.is_jumping:
             self.change_y += self.jump_force
             self.jump_force *= JUMP_FORCE_REDUCTION
-        self.change_x = (
-            self.movement_x * self.movement_control + self.previous_movement_x
-        ) / (1 + self.movement_control)
+        self.change_x = (self.movement_x * self.movement_control + self.previous_movement_x) / (
+            1 + self.movement_control
+        )
         self.previous_movement_x = self.change_x
 
         # if floor(self.change_x) > 0:

@@ -50,7 +50,10 @@ class GameState:
         ):
             self.player.append_texture(tile.texture)
 
-        self.explosion_sounds = arcade.load_sound("assets/explosion-1.mp3"), arcade.load_sound("assets/explosion-2.mp3")
+        self.explosion_sounds = (
+            arcade.load_sound("assets/explosion-1.mp3"),
+            arcade.load_sound("assets/explosion-2.mp3"),
+        )
         self.background_music = arcade.load_sound("assets/retro.mp3")
         self.pickup_sound = arcade.load_sound("assets/pick_up_sound.mp3")
         self.mode_switch_sound = arcade.load_sound("assets/mode_switch.mp3")
@@ -61,8 +64,10 @@ class GameState:
 
         self.load_level(self.level)
 
-        self.background_music.play(volume=.1)
-        pyglet.clock.schedule_interval(lambda time: self.background_music.play(volume=.1), self.background_music.get_length())
+        self.background_music.play(volume=0.1)
+        pyglet.clock.schedule_interval(
+            lambda time: self.background_music.play(volume=0.1), self.background_music.get_length()
+        )
 
         self.emitters = []
 
@@ -157,9 +162,7 @@ class GameState:
         elif not self.end:
             raise RuntimeError("End is not set.")
 
-        self.engine = arcade.PhysicsEnginePlatformer(
-            self.player, self.level_geometry, GRAVITY
-        )
+        self.engine = arcade.PhysicsEnginePlatformer(self.player, self.level_geometry, GRAVITY)
 
         self.move_to_start()
 
@@ -198,19 +201,27 @@ class GameState:
         if saves:
             new_save = saves.pop()
             if self.start != new_save:
-                self.pickup_sound.play(volume=.1)
+                self.pickup_sound.play(volume=0.1)
                 self.start = new_save
                 self.last_color = self.player.str_color
 
         if is_touching(self.player, self.danger):
-            self.emitters.append(explosion_factory((self.player.center_x, self.player.center_y), self.player.get_color()))
+            self.emitters.append(
+                explosion_factory(
+                    (self.player.center_x, self.player.center_y), self.player.get_color()
+                )
+            )
             self.move_to_start()
 
         colors = {"red", "green", "blue"}
         colors.discard(self.player.str_color)
         for color in colors:
             if is_touching(self.player, self.colored_geometry[color]):
-                self.emitters.append(explosion_factory((self.player.center_x, self.player.center_y), self.player.get_color()))
+                self.emitters.append(
+                    explosion_factory(
+                        (self.player.center_x, self.player.center_y), self.player.get_color()
+                    )
+                )
                 self.move_to_start()
 
         self.player.update()
@@ -241,10 +252,10 @@ class GameState:
             self.player.set_color(
                 all_colors[(all_colors.index(self.player.str_color) + 1) % len(all_colors)]
             )
-            self.mode_switch_sound.play(volume=.1)
+            self.mode_switch_sound.play(volume=0.1)
         if key in colors:
             self.player.set_color(colors[key])
-            self.mode_switch_sound.play(volume=.1)
+            self.mode_switch_sound.play(volume=0.1)
 
         # Pre
         if self.engine.can_jump():
@@ -274,7 +285,7 @@ class GameState:
         if key == arcade.key.SPACE:
             self.player.jump_count += 1
             if self.player.jump_count <= JUMP_COUNT:
-                self.jump_sound.play(volume=.5)
+                self.jump_sound.play(volume=0.5)
                 self.player.change_y = 0
                 self.player.is_jumping = True
                 self.player.jump_force = (

@@ -22,9 +22,7 @@ class Game(VCRDistortionWindow):
 
     def on_update(self, delta_time: float) -> None:
         """Send update event to the gamestate."""
-        if (
-            not self.ingame
-        ):  # Temporarily automatically start the game if it isn't running
+        if not self.ingame:  # Temporarily automatically start the game if it isn't running
             self.start_game()
         if self.gamestate:
             self.gamestate.on_update(delta_time)

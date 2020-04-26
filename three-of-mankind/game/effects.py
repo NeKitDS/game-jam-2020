@@ -265,7 +265,7 @@ class VCRDistortionWindow(arcade.Window):
             self.use()
             # bind the texture
             self.ost.use(0)
-            self.fs_program['iTime'] = self.elapsed_time / 2.
+            self.fs_program["iTime"] = self.elapsed_time / 2.0
             # render the effect
             self.fs_quad.render(self.fs_program)
 

@@ -39,12 +39,8 @@ def weird_sign(n: Number) -> int:
     else:
         return 1
 
-def dash(
-    sprite: arcade.Sprite,
-    dir_x: int,
-    dir_y: int,
-    collide_with: arcade.SpriteList,
-) -> None:
+
+def dash(sprite: arcade.Sprite, dir_x: int, dir_y: int, collide_with: arcade.SpriteList,) -> None:
     """Move sprite until it reaches something."""
     sprite.bottom += 1
     prev_x = sprite.left
@@ -100,7 +96,7 @@ def is_touching(
     geometry: arcade.SpriteList,
     *,
     check_top: bool = True,
-    displacement: Tuple[int, int] = (5, 5)
+    displacement: Tuple[int, int] = (5, 5),
 ) -> bool:
     """Return True if sprite is touching any sprite in geometry"""
     dirs = [(-1, 0), (+1, 0), (0, -1)]  # Left  # Right  # Bottom
@@ -185,14 +181,11 @@ def dash_emitter_factory(color, pos_a, pos_b):
     else:
         angle = 180
     textures = [
-        arcade.Texture(f"{time.time()}", Image.new("RGBA", (10, 10), p))
-        for p in rand_color(color)
+        arcade.Texture(f"{time.time()}", Image.new("RGBA", (10, 10), p)) for p in rand_color(color)
     ]
     line_e = arcade.Emitter(
         center_xy=(0.0, 0.0),
-        emit_controller=arcade.EmitterIntervalWithTime(
-            LINE_EMIT_INTERVAL, DEFAULT_EMIT_DURATION
-        ),
+        emit_controller=arcade.EmitterIntervalWithTime(LINE_EMIT_INTERVAL, DEFAULT_EMIT_DURATION),
         particle_factory=lambda emitter: arcade.LifetimeParticle(
             filename_or_texture=random.choice(textures),
             change_xy=arcade.rand_in_circle((0.0, 0.0), PARTICLE_SPEED_SLOW),
@@ -204,9 +197,7 @@ def dash_emitter_factory(color, pos_a, pos_b):
     )
     exhaust_plume_e = arcade.Emitter(
         center_xy=pos_a,
-        emit_controller=arcade.EmitterIntervalWithTime(
-            PLUME_EMIT_INTERVAL, PLUME_EMIT_DURATION
-        ),
+        emit_controller=arcade.EmitterIntervalWithTime(PLUME_EMIT_INTERVAL, PLUME_EMIT_DURATION),
         particle_factory=lambda emitter: arcade.FadeParticle(
             filename_or_texture=random.choice(textures),
             change_xy=arcade.rand_vec_spread_deg(angle, 25, 4.0),
@@ -220,15 +211,14 @@ def dash_emitter_factory(color, pos_a, pos_b):
 class ExplosionParticle(arcade.LifetimeParticle):
     def update(self):
         super().update()
-        #self.change_y = -2*(self.lifetime_elapsed-math.sqrt(5))
+        # self.change_y = -2*(self.lifetime_elapsed-math.sqrt(5))
 
 
 def explosion_factory(pos, color):
     logging.info(f"Creating explosion emitter at {pos}")
 
     textures = [
-        arcade.Texture(f"{time.time()}", Image.new("RGBA", (10, 10), p))
-        for p in rand_color(color)
+        arcade.Texture(f"{time.time()}", Image.new("RGBA", (10, 10), p)) for p in rand_color(color)
     ]
 
     line_e = arcade.Emitter(
