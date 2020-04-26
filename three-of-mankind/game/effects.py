@@ -234,7 +234,8 @@ class VCRDistortionWindow(arcade.Window):
             uniform sampler2D tex;
             uniform float iTime;
             void main() {
-                vec2 uv = screenDistort(v_uv);
+                //vec2 uv = screenDistort(v_uv);
+                vec2 uv = v_uv;
                 //vec3 video = texture(tex, getVideoUV(uv, iTime)).xyz;
                 vec3 video = texture(tex, uv).xyz;
                 float vigAmt = 3.+.3*sin(iTime + 5.*cos(iTime*50.));
