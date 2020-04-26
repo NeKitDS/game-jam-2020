@@ -62,7 +62,7 @@ class GameState:
         self.load_level(self.level)
 
         self.background_music.play(volume=.1)
-        pyglet.clock.schedule_interval(lambda: self.background_music.play(volume=.1), self.background_music.get_length())
+        pyglet.clock.schedule_interval(lambda time: self.background_music.play(volume=.1), self.background_music.get_length())
 
         self.emitters = []
 
